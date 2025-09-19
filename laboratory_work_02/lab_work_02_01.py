@@ -13,7 +13,5 @@ elif 0 <= x <= pi:
     y = sin(x)
 elif pi <= x:
     y = x - pi
-elif x >= 8:
-    y = 2
 
 print("X = {0:.2f} Y = {1:.2f}".format(x, y))
