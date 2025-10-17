@@ -1,4 +1,4 @@
-from math import *
+from math import sin, cos
 
 x = float(input('Введите параметр x: '))
 y1 = (sin(2*x)+sin(5*x)-sin(3*x))/(cos(x)+1-2*sin(2*x)**2)

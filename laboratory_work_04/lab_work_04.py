@@ -1,5 +1,4 @@
-from math import *
-from random import *
+from random import uniform
 
 n = int(input("Элементов в массиве (N<=30) N: "))
 if n > 30:

@@ -1,6 +1,4 @@
-from math import *
-from random import *
-
+from random import uniform
 R = float(input("Введите значение для радиуса R: "))
 
 flag = 0

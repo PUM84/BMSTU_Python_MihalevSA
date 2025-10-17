@@ -1,4 +1,4 @@
-from math import *
+from math import sqrt, sin, pi
 
 print('Введите Xbeg, Xend и Dx')
 

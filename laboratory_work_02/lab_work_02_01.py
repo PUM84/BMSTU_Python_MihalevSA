@@ -1,4 +1,4 @@
-from math import *
+from math import sqrt, sin, pi
 
 x = float(input("Введите значение X = "))
 y = 0.0

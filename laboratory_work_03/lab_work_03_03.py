@@ -1,5 +1,3 @@
-from math import *
-
 print('Введите Xbeg, Xend, Dx и Eps')
 xb = float(input('Xbeg = '))
 xe = float(input('Xend = '))
