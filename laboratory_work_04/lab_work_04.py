@@ -18,7 +18,7 @@ for i in range(n):
     if i % 2 == 0:
         mult *= mas[i]
 
-for i in range(n):
+for i in range(n//2 + 1):
     for j in range(0, n - i - 1):
         if mas[j] > mas[j + 1]:
             mas[j], mas[j + 1] = mas[j + 1], mas[j]
