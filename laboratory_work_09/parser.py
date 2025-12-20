@@ -1,4 +1,4 @@
-from ast import String, Print
+from ast import Number, BinOp, Print
 
 
 class Parser:
@@ -28,12 +28,58 @@ class Parser:
         self.eat('PRINT')
         self.eat('LPAREN')
 
-        if self.current_token.type != 'STRING':
-            raise ValueError('Ожидалась строка в print()')
+        expr = self.expr()
 
-        string_token = self.current_token
-        self.eat('STRING')
         self.eat('RPAREN')
         self.eat('SEMICOLON')
 
-        return Print(String(string_token.value))
+        return Print(expr)
+
+    def expr(self):
+        """Сложение и вычитание"""
+        node = self.term()
+
+        while self.current_token.type in ('PLUS', 'MINUS'):
+            token = self.current_token
+            self.eat(token.type)
+            node = BinOp(left=node, op=token.value, right=self.term())
+
+        return node
+
+    def term(self):
+        """Умножение и деление"""
+        node = self.factor()
+
+        while self.current_token.type in ('MULTIPLY', 'DIVIDE'):
+            token = self.current_token
+            self.eat(token.type)
+            node = BinOp(left=node, op=token.value, right=self.factor())
+
+        return node
+
+    def factor(self):
+        """Возведение в степень"""
+        node = self.atom()
+
+        while self.current_token.type == 'POWER':
+            token = self.current_token
+            self.eat('POWER')
+            node = BinOp(left=node, op=token.value, right=self.atom())
+
+        return node
+
+    def atom(self):
+        """Числа и скобки"""
+        if self.current_token.type == 'NUMBER':
+            value = self.current_token.value
+            self.eat('NUMBER')
+            return Number(value)
+
+        elif self.current_token.type == 'LPAREN':
+            self.eat('LPAREN')
+            node = self.expr()
+            self.eat('RPAREN')
+            return node
+
+        else:
+            raise ValueError(f'Ожидалось число или скобка, получен {self.current_token.type}')

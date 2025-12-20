@@ -32,17 +32,12 @@ class Lexer:
         if self.current_char == '\n':
             self.advance()
 
-    def string(self):
+    def number(self):
         result = ''
-        quote_char = self.current_char
-        self.advance()  # Пропускаем открывающую кавычку
-
-        while self.current_char and self.current_char != quote_char:
+        while self.current_char and (self.current_char.isdigit() or self.current_char == '.'):
             result += self.current_char
             self.advance()
-
-        self.advance()  # Пропускаем закрывающую кавычку
-        return result
+        return float(result) if '.' in result else int(result)
 
     def identifier(self):
         result = ''
@@ -63,11 +58,11 @@ class Lexer:
                 self.skip_comment()
                 continue
 
-            # Строки
-            if self.current_char in ('"', "'"):
-                return Token('STRING', self.string())
+            # Числа
+            if self.current_char.isdigit():
+                return Token('NUMBER', self.number())
 
-            # Идентификатор (только print)
+            # Идентификаторы (только print)
             if self.current_char.isalpha():
                 ident = self.identifier()
                 if ident == 'print':
@@ -75,7 +70,27 @@ class Lexer:
                 else:
                     raise ValueError(f'Неизвестная команда: {ident}')
 
-            # Скобки и точка с запятой
+            # Операторы и скобки
+            if self.current_char == '+':
+                self.advance()
+                return Token('PLUS', '+')
+
+            if self.current_char == '-':
+                self.advance()
+                return Token('MINUS', '-')
+
+            if self.current_char == '*':
+                self.advance()
+                return Token('MULTIPLY', '*')
+
+            if self.current_char == '/':
+                self.advance()
+                return Token('DIVIDE', '/')
+
+            if self.current_char == '^':
+                self.advance()
+                return Token('POWER', '^')
+
             if self.current_char == '(':
                 self.advance()
                 return Token('LPAREN', '(')
