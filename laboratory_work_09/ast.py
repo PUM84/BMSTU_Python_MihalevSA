@@ -37,3 +37,9 @@ class Print:
     def eval(self):
         result = self.expr.eval()
         print(result)
+
+
+class Gen:
+    """Специальный узел для генерации кода"""
+    def __init__(self, expr):
+        self.expr = expr

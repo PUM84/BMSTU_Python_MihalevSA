@@ -1,6 +1,5 @@
 from ast import Number, BinOp, Print
 
-
 class Parser:
     def __init__(self, lexer):
         self.lexer = lexer
@@ -21,18 +20,26 @@ class Parser:
     def statement(self):
         if self.current_token.type == 'PRINT':
             return self.print_statement()
+        elif self.current_token.type == 'GEN':
+            return self.gen_statement()
         else:
             raise ValueError(f'Неожиданная команда: {self.current_token.type}')
 
     def print_statement(self):
         self.eat('PRINT')
         self.eat('LPAREN')
-
         expr = self.expr()
-
         self.eat('RPAREN')
         self.eat('SEMICOLON')
+        return Print(expr)
 
+    def gen_statement(self):
+        """Обработка команды gen - такой же как print, но возвращает Gen узел"""
+        self.eat('GEN')
+        self.eat('LPAREN')
+        expr = self.expr()
+        self.eat('RPAREN')
+        self.eat('SEMICOLON')
         return Print(expr)
 
     def expr(self):
