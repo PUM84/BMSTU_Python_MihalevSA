@@ -48,25 +48,24 @@ class Lexer:
 
     def get_next_token(self):
         while self.current_char:
-            # Пропускаем пробелы
+
             if self.current_char.isspace():
                 self.skip_whitespace()
                 continue
 
-            # Пропускаем комментарии
             if self.current_char == '#':
                 self.skip_comment()
                 continue
 
-            # Числа
             if self.current_char.isdigit():
                 return Token('NUMBER', self.number())
 
-            # Идентификаторы (только print)
             if self.current_char.isalpha():
                 ident = self.identifier()
                 if ident == 'print':
                     return Token('PRINT', 'print')
+                elif ident == 'gen':
+                    return Token('GEN', 'gen')
                 else:
                     raise ValueError(f'Неизвестная команда: {ident}')
 
